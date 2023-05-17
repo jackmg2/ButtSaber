@@ -5,13 +5,13 @@ namespace LovenseBSControl.Classes.Modus
 {
     class PresetModus : Modus
     {
-        public List<string> UiElements = new List<string>{ "vibrateOnMissBtn" , "vibrateOnHitBtn" };
+        public List<string> UiElements = new List<string> { "vibrateOnMissBtn", "vibrateOnHitBtn" };
 
         public override void HandleHit(List<Toy> toys, bool LHand, NoteCutInfo data)
         {
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive() && toy.CheckHand(LHand))
+                if (toy.CheckHand(LHand))
                 {
                     toy.vibratePreset(PluginConfig.Instance.PresetBomb);
                 }
@@ -22,7 +22,7 @@ namespace LovenseBSControl.Classes.Modus
         {
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive() && toy.CheckHand(LHand))
+                if (toy.CheckHand(LHand))
                 {
                     toy.vibratePreset(PluginConfig.Instance.PresetBomb);
                 }
@@ -35,10 +35,7 @@ namespace LovenseBSControl.Classes.Modus
 
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive())
-                {
-                    toy.vibratePreset(3);
-                }
+                toy.vibratePreset(3);
             }
         }
         public override void HandleFireworks(List<Toy> toys)

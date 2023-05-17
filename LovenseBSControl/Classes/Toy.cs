@@ -1,182 +1,165 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Buttplug.Client;
 using LovenseBSControl.Configuration;
 
 namespace LovenseBSControl.Classes
 {
     public class Toy
     {
-        private String ID;
-        private String Type;
-        private bool Connected;
-        private String Motor;
-        private String NickName;
-        private String Version;
+        private Request _request;
+        public ButtplugClientDevice Device { get; private set; }
 
-        private int battery;
+        private bool _connected;
+        private bool _isRunning;
+        private ToysConfig _config;
+        private double _lastLevel;
+        private String _lastConnection;
 
-        private ToysConfig Config;
+        public Toy(ButtplugClientDevice device, Request request, bool Connected = false)
+        {
+            this.Device = device;
+            this._request = request;
 
-        private bool on;
-        private int lastLevel;
-
-        private String LastConnection;
-
-        public Toy(String ID, String Type, bool Connected = false, String Version = "", String NickName = "", String Motor = "") {
-            this.ID = ID;
-            this.Type = Type;
-            this.Motor = Motor;
-
-            ToysConfig newConfig = ToysConfig.createToyConfig(this.GetId());
+            ToysConfig newConfig = ToysConfig.createToyConfig(this.Device.Name);
             if (PluginConfig.Instance.ToyConfigurations != null)
             {
-                if (PluginConfig.Instance.ToyConfigurations != null && PluginConfig.Instance.IsAdded(this.ID))
+                if (PluginConfig.Instance.ToyConfigurations != null && PluginConfig.Instance.IsAdded(this.Device.Name))
                 {
-                    newConfig = PluginConfig.Instance.getToyConfig(this.ID);
+                    newConfig = PluginConfig.Instance.getToyConfig(this.Device.Name);
                 }
                 else
                 {
-                    PluginConfig.Instance.AddToyConfiguration(this.ID,newConfig);
+                    PluginConfig.Instance.AddToyConfiguration(this.Device.Name, newConfig);
                 }
             }
-            Config = newConfig;
-            this.Connected = Connected;
-            this.NickName = NickName;
-            this.Version = Version;
-            this.on = false;
+            _config = newConfig;
+            this._connected = Connected;
+            this._isRunning = false;
         }
 
         public string GetPictureName()
         {
-            return ("logo_" + this.Type + this.Version + ".png").ToLower();
+            //Todo: Display device pictures
+            return ("logo_machine.png").ToLower();
         }
 
-        public bool IsConnected() {
-            return this.Connected;
+        public bool IsConnected()
+        {
+            //TODO: fix
+            return true;
         }
 
-        public bool IsActive() {
-            return !this.Config.Inactive;
+        public bool IsActive()
+        {
+            //TODO: fix
+            return true;
         }
 
-        public bool IsOn() {
-            return this.on;
+        public bool IsOn()
+        {
+            return this._isRunning;
         }
 
-        public String GetId() {
-            return this.ID;
-        }
-
-        public String GetMotor() {
-            return this.Motor;
-        }
-
-        public String GetNickName() {
-            return this.NickName.Equals("") ? this.GetText() : this.NickName;
-        }
-
-        public String GetText() {
-            return this.Version.Equals("") ? this.Type : this.Type + " " + this.Version;
-        }
-
-        public bool CanRotate() {
-
-            return this.Type.Equals("Nora");
+        public bool CanRotate()
+        {
+            //Todo: Handle can rotate
+            return false;
         }
 
         public bool CanPump()
         {
-            return this.Type.Equals("Max");
+            //Todo: Handle can pump
+            return false;
         }
 
-        public void Test() {
-           this.vibrate(500, 10);
+        public void Test()
+        {
+            this.vibrate(1000, 0.5);
         }
 
-        public void setOff() {
-            this.on = false;
+        public void setOff()
+        {
+            this._isRunning = false;
         }
         internal void setOn()
         {
-            this.on = true;
+            this._isRunning = true;
         }
 
-        public bool CheckHand(bool LHand) {
-            return (LHand == this.Config.LHand) || (!LHand == this.Config.RHand);
+        public bool CheckHand(bool LHand)
+        {
+            return (LHand == this._config.LHand) || (!LHand == this._config.RHand);
         }
 
-        public void vibrate(int time, int level, bool ignoreLastLevel = false) {
-            this.on = true;
-            Request request = new Classes.Request();
+        public void vibrate(int time, double level, bool ignoreLastLevel = false)
+        {
+            this._isRunning = true;
+
             if (!ignoreLastLevel)
             {
-                this.lastLevel = level;
+                this._lastLevel = level;
             }
-            request.UseToy(this, time, level).ConfigureAwait(true);
+            _request.VibrateToy(this.Device, time, level).ConfigureAwait(true);
         }
-
-       
 
         public void vibrate(int time, bool hit = true)
         {
-            this.on = true;
-            Request request = new Classes.Request();
-            this.lastLevel = this.getIntense(hit);
-            request.UseToy(this, time, this.lastLevel).ConfigureAwait(true);
+            this._isRunning = true;
+            this._lastLevel = this.getIntense(hit);
+            _request.VibrateToy(this.Device, time, this._lastLevel).ConfigureAwait(true);
         }
 
-        public void resume() {
-            Request request = new Classes.Request();
-            request.UseToy(this, 0, this.lastLevel).ConfigureAwait(true);
+        public void resume()
+        {
+            _request.VibrateToy(this.Device, 0, this._lastLevel).ConfigureAwait(true);
         }
 
-        private int getIntense(bool hit = true) {
-            var intense = hit ? PluginConfig.Instance.IntenseHit : PluginConfig.Instance.IntenseMiss;
-            if (PluginConfig.Instance.RandomIntenseHit) {
+        private double getIntense(bool hit = true)
+        {
+            double intense = (hit ? PluginConfig.Instance.IntenseHit : PluginConfig.Instance.IntenseMiss) / 20;
+            if (PluginConfig.Instance.RandomIntenseHit)
+            {
                 Random rng = new Random();
-                intense = rng.Next(1, 20);
+                intense = (double)rng.Next(1, 20) / 20;
             }
             return intense;
         }
 
         public void vibratePreset(int preset = 2, bool resume = false)
         {
-            this.on = true;
-            Request request = new Classes.Request();
-            request.PresetToy(this, preset).ConfigureAwait(true);
+            this._isRunning = true;
+            _request.PresetToy(this.Device, preset).ConfigureAwait(true);
         }
 
-        public String getBattery()
+        public async Task<String> GetBattery()
         {
-            return this.battery.ToString();
+            return (await this.Device.BatteryAsync()).ToString();
         }
 
-        public void stop(bool resetLastLevel = false) {
+        public void stop(bool resetLastLevel = false)
+        {
             if (resetLastLevel)
             {
-                this.lastLevel = 0;
+                this._lastLevel = 0;
             }
-            this.on = false;
-            Request request = new Classes.Request();
-            request.StopToy(this).ConfigureAwait(true);
+            this._isRunning = false;
+            _request.StopToy(this.Device).ConfigureAwait(true);
         }
 
         public ToysConfig GetToyConfig()
         {
-            return Config;
-        }
-
-        public void SetBattery(int battery) {
-            this.battery = battery;
+            return _config;
         }
 
         public void SetConnection(string connectionName)
         {
-            this.LastConnection = connectionName;
+            this._lastConnection = connectionName;
         }
 
         public string GetConnection()
         {
-            return this.LastConnection;
+            return this._lastConnection;
         }
 
     }

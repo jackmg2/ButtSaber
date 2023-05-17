@@ -12,7 +12,7 @@ namespace LovenseBSControl.Classes
         private void Awake()
         {
             try
-            {   
+            {
                 Init();
             }
             catch (Exception ex)
@@ -36,7 +36,7 @@ namespace LovenseBSControl.Classes
             BattersStatus = gameObject.AddComponent<TextMeshProUGUI>();
             BattersStatus.rectTransform.SetParent(canvas.transform as RectTransform, false);
             BattersStatus.rectTransform.anchoredPosition = new Vector2(0, 0);
-            BattersStatus.text = this.CreateText(); 
+            BattersStatus.text = this.CreateText();
             BattersStatus.alignment = TextAlignmentOptions.Left;
             BattersStatus.transform.localScale *= .12f;
             BattersStatus.fontSize = 1.8f;
@@ -57,11 +57,7 @@ namespace LovenseBSControl.Classes
             string text = "Battery status";
             foreach (Toy toy in Plugin.Control.GetToyList())
             {
-                if (toy.IsConnected() && toy.IsActive())
-                {
-                    Plugin.Control.updateBattery(toy);
-                    text += "\r\n" + toy.GetNickName() + " " + toy.getBattery() + "%";
-                }
+                text += "\r\n" + toy.Device.DisplayName + " " + toy.GetBattery() + "%";
             }
             return text;
         }

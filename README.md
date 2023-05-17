@@ -1,28 +1,37 @@
-# LovenseBSControl
+# Butt Saber revival
 
-Small private project to add the posibility to control Toys from the Lovense company with Miss or Hits or both, direct on playing Beat Saber with the API from Lovense.
+Quick n dirty port of [LovenseBSControl](https://github.com/Sesch69/LovenseBSControl) by Sesch69 to connect [Intiface](https://intiface.com/) to Beat Saber.
 
-## What is this?
-This Mod adds the posibility to control the vibrations of Lovense Toys with direct playing the VR game Beat Saber. 
-You can configure the intense and duration of the toys. Also it is possible to set up the vibration on miss or/and hit.
+**Intiface**, formerly [buttplug.io](buttplug.io) is an open-source standard to control connected toys.
+
+**Big thanks to Sesch69 who did all of the work.**
+
+I have just changed the Lovense API to Intiface one.
 
 ## Prerequisites
 
-- Lovense Connect from www.lovense.com must be installed on PC (Default Connection setting in the mod settings)
-- OR Lovense Connect for Android/IPhone and using the IP adress + port in the extended connection configuration (Click on the green shield in the app)
-- Toys has to be connected with Lovense Connect App
+- [Intiface-Central](https://intiface.com/central/) to connect your toys
 - Mod BSIPA is required
 - Mod is based on Lib Harmony
 
+## Compilation
+
+* Open your project in Visual Studio Community
+* Restore nuget packages
+* Use your Beat Saber folder with your required mods installed ([ModAssistant](https://github.com/Assistant/ModAssistant) is the easiest way) for missing dependencies
+* Rebuild your project
+
+TBD
+
 ## Installation
 
-- Unpack Zip file into the Plugin folder of the main directory of Beat Saber
+- Copy dlls from your bin folder into the Plugin folder of the main directory of Beat Saber
 - Goto to Settings -> Mod Settings -> Check Lovense BS Control settings
 
 ## Setting Options
 
 * Enable Mod
-* Mode: Select a mode to play
+* Mode: Select a mode to play *(at this time only Default and Challenge 1 are working)*
 * Vibrate on miss: Vibrate toys on miss (For Default mode)
 
 * Random Intense (miss): Random intense between 1 and 20 (For Default mode)
@@ -42,19 +51,10 @@ You can configure the intense and duration of the toys. Also it is possible to s
 
 ## Connections...
 
-- Possible to use several connections to control toys with several devices. Smartphone or PC with Lovense Connect
-- Use "Default" connection for PC Lovense Connect should work in the most cases, on slw reaction time use "Localhost" connection
-- Create own connection to use Smartphone in the same Network. Using IP adress from the device in the network + port (Check Lovense Connect App  with click on the green shield)
+*Only working on local PC at this time*
 
 ## Mode
 
 - Default: Use the configuration for hit/miss/intense/duration
 - Challenge 1: With each miss, the vibration inreases, after 15 correct hits, it is reducing by 1 intense level
 - Preset: Vibrate on Miss with a fixed defined preset
-
-
-## Supporting
-
-For a thanks, support, a cup of coffee or other reasons
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RE3R3XH2DHDVQ)

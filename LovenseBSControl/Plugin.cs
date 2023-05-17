@@ -37,12 +37,12 @@ namespace LovenseBSControl
             CheckConnections();
 
             Control = new Classes.Control();
-            Control.LoadToysAsync().ConfigureAwait(true);
+            Control.ConnectAsync().ConfigureAwait(true);
         }
 
         [OnStart]
         public void OnApplicationStart()
-        {
+        {            
             Log.Debug("OnApplicationStart");
             new GameObject("LovenseBSControlController").AddComponent<LovenseBSControlController>();
             BSEvents.gameSceneActive += GameCutAction;
@@ -50,7 +50,7 @@ namespace LovenseBSControl
             harmony = new Harmony("com.Sesch69.BeatSaber.LovenseBSControl");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            BSMLSettings.instance.AddSettingsMenu("Lovense BS Control", "LovenseBSControl.UI.Views.SettingsView.bsml", new SettingsViewController());
+            BSMLSettings.instance.AddSettingsMenu("Lovense BS Control", "LovenseBSControl.UI.Views.SettingsView.bsml", new SettingsViewController());            
         }
 
         void GameCutAction()

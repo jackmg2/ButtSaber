@@ -48,23 +48,19 @@ namespace LovenseBSControl.Classes
             return this.ActiveMode;
         }
 
-        public void Init()
+        public async Task ConnectAsync()
         {
+            await this.Request.Connect();
+            Toys = GetToyList().ToList();
         }
 
-        public async Task LoadToysAsync()
+        public IEnumerable<Toy> GetToyList()
         {
-            Toys = await this.Request.RequestToysListAsync();
+            return this.Request.RequestToysList().Select(d => new Toy(d, this.Request, true));
         }
 
-        public List<Toy> GetToyList()
+        public void HandleCut(bool LHand, bool success, NoteCutInfo data = new NoteCutInfo())
         {
-            return Toys;
-        }
-
-        public void HandleCut(bool LHand, bool success, NoteCutInfo data = new NoteCutInfo() )
-        {
-            
             if (success)
             {
                 Plugin.Control.HitCounter++;
@@ -75,7 +71,6 @@ namespace LovenseBSControl.Classes
                 Plugin.Control.MissCounter++;
                 this.ActiveMode.HandleMiss(Toys, LHand);
             }
-            
         }
 
         public void HandleBomb()
@@ -111,11 +106,6 @@ namespace LovenseBSControl.Classes
             return false;
         }
 
-        public void updateBattery(Toy toy)
-        {
-            this.Request.updateBattery(toy);
-        }
-
         public bool IsToyAvailable()
         {
             return this.Toys.Count > 0;
@@ -143,7 +133,7 @@ namespace LovenseBSControl.Classes
 
                     toy.vibrate(0, intense, !this.ActiveMode.useLastLevel());
                 }
-                   
+
             }
         }
 
@@ -165,7 +155,7 @@ namespace LovenseBSControl.Classes
             this.StopActive();
         }
 
-        public void ResetCounter() 
+        public void ResetCounter()
         {
             this.HitCounter = 0;
             this.MissCounter = 0;

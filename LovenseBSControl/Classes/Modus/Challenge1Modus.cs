@@ -15,9 +15,9 @@ namespace LovenseBSControl.Classes.Modus
                 Plugin.Control.HitCounter = 0;
                 foreach (Toy toy in toys)
                 {
-                    if (toy.IsConnected() && toy.IsActive())
+                    if (toy.IsActive())
                     {
-                        toy.vibrate(0, Plugin.Control.MissCounter);
+                        toy.vibrate(0, (double)Plugin.Control.MissCounter / 20);
                     }
                 }
             }
@@ -32,9 +32,9 @@ namespace LovenseBSControl.Classes.Modus
 
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive())
+                if (toy.IsActive())
                 {
-                    toy.vibrate(0, Plugin.Control.MissCounter);
+                    toy.vibrate(0, (double)Plugin.Control.MissCounter / 20);
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace LovenseBSControl.Classes.Modus
 
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive())
+                if (toy.IsActive())
                 {
                     toy.vibratePreset(3, true);
                 }

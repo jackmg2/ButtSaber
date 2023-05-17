@@ -12,7 +12,7 @@ namespace LovenseBSControl.Classes.Modus
         {
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive() && PluginConfig.Instance.VibrateHit)
+                if (PluginConfig.Instance.VibrateHit)
                 {
                     if (toy.CheckHand(LHand) && !toy.GetToyConfig().Random)
                     {
@@ -25,7 +25,7 @@ namespace LovenseBSControl.Classes.Modus
                         bool random = rng.Next(0, 2) > 0;
                         if ((random && LHand) || (!random && !LHand))
                         {
-                            toy.vibrate( PluginConfig.Instance.DurationHit);
+                            toy.vibrate(PluginConfig.Instance.DurationHit);
                         }
                     }
                 }
@@ -36,7 +36,7 @@ namespace LovenseBSControl.Classes.Modus
         {
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive() && PluginConfig.Instance.VibrateMiss)
+                if (PluginConfig.Instance.VibrateMiss)
                 {
                     if (toy.CheckHand(LHand) && !toy.GetToyConfig().Random)
                     {
@@ -62,10 +62,7 @@ namespace LovenseBSControl.Classes.Modus
 
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive())
-                {
-                    toy.vibratePreset(PluginConfig.Instance.PresetBomb);
-                }
+                toy.vibratePreset(PluginConfig.Instance.PresetBomb);
             }
         }
 
@@ -75,10 +72,7 @@ namespace LovenseBSControl.Classes.Modus
 
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive())
-                {
-                    toy.vibratePreset(PluginConfig.Instance.PresetBomb);
-                }
+                toy.vibratePreset(PluginConfig.Instance.PresetBomb);
             }
         }
 

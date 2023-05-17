@@ -59,22 +59,34 @@
       <HintPath>$(BeatSaberDir)\Plugins\BSML.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="BS_Utils, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="BS_Utils">
+      <HintPath>$(BeatSaberDir)\Plugins\BS_Utils.dll</HintPath>
+    </Reference>
     <Reference Include="GameplayCore, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <Private>False</Private>
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Hive.Versioning, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Hive.Versioning, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(BeatSaberDir)\IPA\Libs\Hive.Versioning.dll</HintPath>
+    </Reference>
     <Reference Include="IPA.Injector, Version=4.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <Private>False</Private>
-      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\IPA.Injector.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Data\Managed\IPA.Injector.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
-    <Reference Include="SiraUtil, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>$(BeatSaberDir)\IPA\Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SemVer">
+      <HintPath>$(BeatSaberDir)\IPA\Libs\SemVer.dll</HintPath>
+    </Reference>
+    <Reference Include="SiraUtil">
+      <HintPath>$(BeatSaberDir)\IPA\Pending\Plugins\SiraUtil.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -92,7 +104,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="IPA.Loader">
-      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\IPA.Loader.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\IPA\Data\Managed\IPA.Loader.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
@@ -107,7 +119,9 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
@@ -124,7 +138,9 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.VRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VRUI, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="VRUI, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\VRUI.dll</HintPath>
+    </Reference>
     <Reference Include="Zenject, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <Private>False</Private>
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject.dll</HintPath>
@@ -173,16 +189,6 @@
     <EmbeddedResource Include="UI\Views\SettingsView.bsml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BeatSaberModdingTools.Tasks">
-      <Version>1.4.3</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Semver">
-      <Version>2.1.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Sprites\logo_ambi.png" />
     <EmbeddedResource Include="Resources\Sprites\logo_diamo.png" />
     <EmbeddedResource Include="Resources\Sprites\logo_domi.png" />
@@ -213,6 +219,14 @@
     <Content Include="Resources\Sprites\logo_hush2.png" />
     <Content Include="Resources\Sprites\logo_hyphy.png" />
     <Content Include="Resources\Sprites\logo_quake.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Buttplug">
+      <Version>3.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Buttplug.Client.Connectors.WebsocketConnector">
+      <Version>3.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

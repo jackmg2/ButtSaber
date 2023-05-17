@@ -17,10 +17,7 @@ namespace LovenseBSControl.Classes.Modus
 
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive())
-                {
-                    toy.vibratePreset(PluginConfig.Instance.PresetBomb);
-                }
+                toy.vibratePreset(PluginConfig.Instance.PresetBomb);
             }
         }
 
@@ -28,10 +25,10 @@ namespace LovenseBSControl.Classes.Modus
         {
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive() && toy.CheckHand(LHand))
+                if (toy.CheckHand(LHand))
                 {
                     //Plugin.Log.Notice("Speed: " + data.saberSpeed.ToString() + " Rating Counter: " + data.swingRatingCounter.beforeCutRating + " - " + data.swingRatingCounter.afterCutRating + " Saber Dir: " + data.saberDir);
-                    int level = Math.Min(20, (int)Math.Round(data.saberSpeed / 3));
+                    double level = Math.Min(20, (int)Math.Round(data.saberSpeed / 3)) / 20;
                     toy.vibrate(PluginConfig.Instance.DurationHit, level);
                 }
             }
@@ -40,10 +37,7 @@ namespace LovenseBSControl.Classes.Modus
         {
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive())
-                {
-                    toy.vibratePreset(PluginConfig.Instance.PresetBomb);
-                }
+                toy.vibratePreset(PluginConfig.Instance.PresetBomb);
             }
         }
 
@@ -51,13 +45,13 @@ namespace LovenseBSControl.Classes.Modus
         {
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive() && toy.CheckHand(LHand))
+                if (toy.CheckHand(LHand))
                 {
                     toy.vibrate(PluginConfig.Instance.DurationMiss, false);
                 }
             }
         }
-        
+
         public override List<string> getUiElements()
         {
             return new List<string> { "vibrateOnHitBtn", "vibrateOnMissBtn", "randomIntenseMissBtn", "intenseMissSlider", "presetOnBombHit", "presetBombSlider", "fireworksBtn", "durationHitSlider" };

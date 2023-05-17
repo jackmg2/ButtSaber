@@ -13,6 +13,7 @@ using TMPro;
 using BS_Utils.Utilities;
 using System.ComponentModel;
 using BeatSaberMarkupLanguage.ViewControllers;
+using IPA.Utilities;
 
 namespace LovenseBSControl.UI
 {
@@ -252,14 +253,12 @@ namespace LovenseBSControl.UI
         private async Task ShowToys(int delay = 0)
         {
             if (delay > 0) await Task.Delay(delay);
-            //SetupListField();
+            SetupListField();
         }
 
         [UIAction("clicked-refresh")]
         private async void ClickedReloadAll()
         {
-            await Plugin.Control.LoadToysAsync();
-
             await ShowToys();
         }
         
@@ -394,18 +393,18 @@ namespace LovenseBSControl.UI
             }
 
             
-            List<Toy> Toys = Plugin.Control.GetToyList();
+            IEnumerable<Toy> Toys = Plugin.Control.GetToyList();
             customListTableData.data.Clear();
             foreach (Toy toy in Toys)
             {
                 Sprite sprite = Utilities.LoadSpriteFromResources("LovenseBSControl.Resources.Sprites." + toy.GetPictureName());
                 ToysConfig toyConfig = toy.GetToyConfig();
-                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.GetNickName(), toy.GetText() + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + (toy.IsConnected()? " - " + toy.getBattery() + "%" : "") + " - " + toyConfig.HType), sprite);
+                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.Device.Name, toy.Device.Name + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + (toy.IsConnected()? " - " + toy.GetBattery().ToString() + "%" : "") + " - " + toyConfig.HType), sprite);
                 customListTableData.data.Add(customCellInfo);
             }
 
             customListTableData.tableView.ReloadData();
-            this.selectedToy = Toys[this.selectedToyNumber];
+            this.selectedToy = Toys.ElementAt(this.selectedToyNumber);
             customListTableData.tableView.ScrollToCellWithIdx(this.selectedToyNumber, TableView.ScrollPositionType.Beginning, false);
             customListTableData.tableView.SelectCellWithIdx(this.selectedToyNumber);
             
@@ -416,9 +415,9 @@ namespace LovenseBSControl.UI
         public void Select(TableView _, int row)
         {
 
-            List<Toy> Toys = Plugin.Control.GetToyList();
+            IEnumerable<Toy> Toys = Plugin.Control.GetToyList();
             this.selectedToyNumber = row;
-            this.selectedToy = Toys[row];
+            this.selectedToy = Toys.ElementAt(row);
             choice.updateOnChange = true;
 
             choice.associatedValue.SetValue(this.selectedToy.GetToyConfig().HType);

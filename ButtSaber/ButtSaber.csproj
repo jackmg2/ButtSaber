@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7D60A9FE-CDD8-4FE2-904D-BF4BFF829270}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ButtSaber</RootNamespace>
+    <AssemblyName>ButtSaber</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <LocalRefsDir Condition="Exists('..\Refs')">..\Refs</LocalRefsDir>
+    <BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
+    <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+    <!--<PathMap>$(AppOutputBase)=X:\$(AssemblyName)\</PathMap>-->
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(DefineConstants.Contains('CIBuild')) OR '$(NCrunch)' == '1'">
+    <DisableCopyToPlugins>True</DisableCopyToPlugins>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NCrunch)' == '1'">
+    <DisableCopyToPlugins>True</DisableCopyToPlugins>
+    <DisableZipRelease>True</DisableZipRelease>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(BeatSaberDir)\Libs\0Harmony.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="BeatmapCore, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BeatmapCore.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="BSML, Version=1.6.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(BeatSaberDir)\Plugins\BSML.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="BS_Utils">
+      <HintPath>$(BeatSaberDir)\Plugins\BS_Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="GameplayCore, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Hive.Versioning, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(BeatSaberDir)\IPA\Libs\Hive.Versioning.dll</HintPath>
+    </Reference>
+    <Reference Include="IPA.Injector, Version=4.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(BeatSaberDir)\Data\Managed\IPA.Injector.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>$(BeatSaberDir)\IPA\Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SemVer">
+      <HintPath>$(BeatSaberDir)\IPA\Libs\SemVer.dll</HintPath>
+    </Reference>
+    <Reference Include="SiraUtil">
+      <HintPath>$(BeatSaberDir)\Plugins\SiraUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Main">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Main.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HMLib">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\HMLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HMUI">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\HMUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="IPA.Loader">
+      <HintPath>$(BeatSaberDir)\IPA\Data\Managed\IPA.Loader.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.VRModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VRUI, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\VRUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Zenject-usage, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\BatteryElement.cs" />
+    <Compile Include="Classes\Control.cs" />
+    <Compile Include="Classes\Modus\Challenge1Modus.cs" />
+    <Compile Include="Classes\Modus\Challenge2Modus.cs" />
+    <Compile Include="Classes\Modus\DefaultModus.cs" />
+    <Compile Include="Classes\Modus\Modus.cs" />
+    <Compile Include="Classes\Modus\PresetModus.cs" />
+    <Compile Include="Classes\Request.cs" />
+    <Compile Include="Classes\Toy.cs" />
+    <Compile Include="Classes\Utilities.cs" />
+    <Compile Include="Configuration\ConnectionConfig.cs" />
+    <Compile Include="Configuration\PluginConfig.cs" />
+    <Compile Include="Configuration\ToysConfig.cs" />
+    <Compile Include="HarmonyPatches\ComboUIControllerHandlerComboBreakingEventHappened.cs" />
+    <Compile Include="HarmonyPatches\Note.cs" />
+    <Compile Include="HarmonyPatches\ContactTheWall.cs" />
+    <Compile Include="HarmonyPatches\FireworksFun.cs" />
+    <Compile Include="HarmonyPatches\HoldOnBreak.cs" />
+    <Compile Include="HarmonyPatches\ResetOnStart.cs" />
+    <Compile Include="HarmonyPatches\StopOnEnd.cs" />
+    <Compile Include="PluginManager.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="ButtSaberController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\SettingsViewController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="manifest.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
+    <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
+    <None Include="ButtSaber.csproj.user" Condition="Exists('ButtSaber.csproj.user')" />
+    <EmbeddedResource Include="UI\Views\SettingsView.bsml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Sprites\logo_ambi.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_diamo.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_domi.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_domi2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_edge.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_edge2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_ferri.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_hush.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_lush.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_lush2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_lush3.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_machine.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_max.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_max2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_mission.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_nora.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_noType.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_osci.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_osci2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_osic.png" />
+    <EmbeddedResource Include="Resources\Sprites\available_profile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Sprites\logo_calor.png" />
+    <Content Include="Resources\Sprites\logo_dolce.png" />
+    <Content Include="Resources\Sprites\logo_exomoon.png" />
+    <Content Include="Resources\Sprites\logo_gush.png" />
+    <Content Include="Resources\Sprites\logo_hush2.png" />
+    <Content Include="Resources\Sprites\logo_hyphy.png" />
+    <Content Include="Resources\Sprites\logo_quake.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Buttplug">
+      <Version>3.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Buttplug.Client.Connectors.WebsocketConnector">
+      <Version>3.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

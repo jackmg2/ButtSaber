@@ -1,0 +1,6 @@
+- [ ] Display battery
+- [ ] Clear modus
+- [ ] Remove Request class to merge it with Control
+- [ ] Handle Multiple motors
+- [ ] Handle Air pulse
+- [ ] Remove Lovense toys references

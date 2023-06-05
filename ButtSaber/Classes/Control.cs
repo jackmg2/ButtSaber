@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 using ButtSaber.Configuration;
 using ButtSaber.Classes.Modus;
 using System.Linq;
+using Buttplug.Client;
+using Buttplug.Client.Connectors.WebsocketConnector;
 
 namespace ButtSaber.Classes
 {
     class Control
     {
+        private ButtplugClient _client = new ButtplugClient("Butt Saber");
+        
         private List<Toy> Toys = new List<Toy>();
 
         private DefaultModus ActiveMode = new DefaultModus();
@@ -22,13 +26,26 @@ namespace ButtSaber.Classes
 
         public int HitCounter = 0;
         public int MissCounter = 0;
-
-        private Classes.Request Request;
+        
         public Control()
         {
-            this.Request = new Classes.Request();
             this.LoadModes();
             this.SetMode();
+        }
+
+        public async Task Connect()
+        {
+            string url = PluginConfig.Instance.GetActiveConnections().First().Value.CreateBaseUrl();
+            Plugin.Log.Debug("Request.Connect: " + url);
+            try
+            {
+                await _client.ConnectAsync(new ButtplugWebsocketConnector(new Uri(url)));
+                Plugin.Log.Debug("Connected.");
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.Error("Request.Connect: " + e.Message);
+            }
         }
 
         public void SetMode()
@@ -50,13 +67,13 @@ namespace ButtSaber.Classes
 
         public async Task ConnectAsync()
         {
-            await this.Request.Connect();
+            await this.Connect();
             Toys = GetToyList().ToList();
         }
 
         public IEnumerable<Toy> GetToyList()
         {
-            return this.Request.RequestToysList().Select(d => new Toy(d, true));
+            return _client.Devices.Select(d => new Toy(d, true));
         }
 
         public void HandleCut(bool LHand, bool success, NoteCutInfo data = new NoteCutInfo())

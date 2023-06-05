@@ -16,10 +16,13 @@ namespace ButtSaber.Classes
         private ToysConfig _config;
         private double _lastLevel;
         private String _lastConnection;
-        private static int vibrationOrdersInQueue = 0;
+        private static int _vibrationOrdersInQueue = 0;
+        private static int _10HZCallCounter = 0;
+        private static Timer _10HzLimitTimer;
 
         public Toy(ButtplugClientDevice device, bool Connected = false)
         {
+            _10HzLimitTimer = new Timer(state => ResetCallCount(), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
             this.Device = device;
 
             ToysConfig newConfig = ToysConfig.createToyConfig(this.Device.Name);
@@ -196,38 +199,63 @@ namespace ButtSaber.Classes
 
         private async Task VibrateInternal(int delay = 0, double speed = 0.5)
         {
-            //Increment the number of order in queue
-            Interlocked.Increment(ref vibrationOrdersInQueue);
-            
-            Plugin.Log.Debug($"VibrateInternal, delay: {delay}, speed: {speed}");
-            try
-            {
-                await this.Device.VibrateAsync(speed);
-            }
-            catch (Exception e)
-            {
-                Plugin.Log.Error($"VibrateInternal, error: {e}");
-            }
+            Interlocked.Increment(ref _10HZCallCounter);
 
-            if (delay > 0)
+            // Check if the call count has reached the limit
+            if (Interlocked.Increment(ref _10HZCallCounter) > 10)
             {
-                Timer timer = null;
-                timer = new Timer(async state =>
+                Plugin.Log.Debug($"VibrateInternal, 10 calls already done");
+                Interlocked.Decrement(ref _10HZCallCounter);
+            }
+            else
+            {
+
+                //Increment the number of order in queue
+                Interlocked.Increment(ref _vibrationOrdersInQueue);
+
+                Plugin.Log.Debug($"VibrateInternal, delay: {delay}, speed: {speed}");
+                try
                 {
-                    // Decrement the task counter
-                    if (Interlocked.Decrement(ref vibrationOrdersInQueue) == 0)
-                    {
-                        await this.Device.VibrateAsync(0);
-                    }
+                    await this.Device.VibrateAsync(speed);
+                }
+                catch (Exception e)
+                {
+                    Plugin.Log.Error($"VibrateInternal, error: {e}");
+                }
 
-                    // Dispose the timer
-                    timer.Dispose();
-                }, null, TimeSpan.FromMilliseconds(delay), TimeSpan.Zero);                
+                if (delay > 0)
+                {
+                    Timer timer = null;
+                    timer = new Timer(async state =>
+                    {
+                        // Decrement the task counter
+                        if (Interlocked.Decrement(ref _vibrationOrdersInQueue) <= 0)
+                        {
+                            Plugin.Log.Error($"VibrateInternal,Stop Vibrator");
+                            try
+                            {
+                                await this.Device.VibrateAsync(0);
+                            }
+                            catch (Exception e)
+                            {
+                                Plugin.Log.Error($"VibrateInternal,Stopping Vibrator failed, error: {e}");
+                            }
+                        }
+
+                        // Dispose the timer
+                        timer.Dispose();
+                    }, null, TimeSpan.FromMilliseconds(delay), TimeSpan.Zero);
+                }
             }
         }
 
+        private static void ResetCallCount()
+        {
+            Interlocked.Exchange(ref _10HZCallCounter, 0);
+        }
+
         public async Task StopToy()
-        {            
+        {
             await this.Device.Stop();
         }
 

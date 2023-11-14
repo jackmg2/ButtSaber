@@ -24,8 +24,6 @@ namespace ButtSaber
 
         private BeatmapObjectSpawnController SpawnController;
 
-        private BatteryElement BatteryElement;
-
         [Init]
         public Plugin(IPALogger logger, IPA.Config.Config conf)
         {
@@ -65,11 +63,6 @@ namespace ButtSaber
                 if (SpawnController == null)
                     SpawnController = Resources.FindObjectsOfTypeAll<BeatmapObjectSpawnController>().FirstOrDefault();
                 if (SpawnController == null) return;
-
-                if (PluginConfig.Instance.BattteryShow && Plugin.Control.IsAToyActive())
-                {
-                    BatteryElement = new GameObject("BatteryElement").AddComponent<BatteryElement>();
-                }
             }
 
         }

@@ -10,7 +10,6 @@ namespace ButtSaber.Classes
 {
     class Utilities
     {
-
         public static IEnumerable GetAllClasses(string nameSpace)
         {
             Assembly asm = Assembly.GetExecutingAssembly();

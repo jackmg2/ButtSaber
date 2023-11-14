@@ -52,17 +52,17 @@ namespace ButtSaber.Classes.Modus
             }
         }
 
-        public override List<string> getUiElements()
+        public override List<string> GetUiElements()
         {
             return new List<string> { "vibrateOnHitBtn", "vibrateOnMissBtn", "randomIntenseMissBtn", "intenseMissSlider", "presetOnBombHit", "presetBombSlider", "fireworksBtn", "durationHitSlider" };
         }
 
-        public override string getDescription()
+        public override string GetDescription()
         {
             return "Vibrate on cutting boxes with level of speed of the cuts";
         }
 
-        public override bool useLastLevel()
+        public override bool UseLastLevel()
         {
             return true;
         }

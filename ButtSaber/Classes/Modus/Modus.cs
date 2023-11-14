@@ -16,11 +16,11 @@ namespace ButtSaber.Classes.Modus
 
         public abstract override string GetModusName();
 
-        public abstract override List<string> getUiElements();
+        public abstract override List<string> GetUiElements();
 
-        public abstract override string getDescription();
+        public abstract override string GetDescription();
 
-        public abstract override bool useLastLevel();
+        public abstract override bool UseLastLevel();
 
     }
 }

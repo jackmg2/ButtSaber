@@ -108,7 +108,7 @@ namespace ButtSaber.Classes
             {
                 if (toy.IsConnected())
                 {
-                    toy.stop(true);
+                    toy.Stop(true);
                 }
             }
         }
@@ -136,7 +136,7 @@ namespace ButtSaber.Classes
             {
                 if (toy.IsConnected())
                 {
-                    toy.stop();
+                    toy.Stop();
                 }
             }
         }
@@ -150,13 +150,11 @@ namespace ButtSaber.Classes
                     Random rng = new Random();
                     int intense = rng.Next(15, 20);
 
-                    toy.VibrateAsync(0, intense, !this.ActiveMode.useLastLevel());
+                    toy.VibrateAsync(0, intense, !this.ActiveMode.UseLastLevel());
                 }
 
             }
         }
-
-
 
         public void ResumeGame()
         {
@@ -164,7 +162,7 @@ namespace ButtSaber.Classes
             {
                 if (toy.IsConnected())
                 {
-                    toy.resume();
+                    toy.Resume();
                 }
             }
         }

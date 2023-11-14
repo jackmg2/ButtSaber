@@ -71,17 +71,17 @@ namespace ButtSaber.Classes.Modus
             return "Challenge 1";
         }
 
-        public override List<string> getUiElements()
+        public override List<string> GetUiElements()
         {
             return new List<string> { "fireworksBtn", "presetOnBombHit", "presetBombSlider" };
         }
 
-        public override string getDescription()
+        public override string GetDescription()
         {
             return "Vibrate missing boxes. Each time level go up, after 15 hits, level goes one step down";
         }
 
-        public override bool useLastLevel()
+        public override bool UseLastLevel()
         {
             return true;
         }

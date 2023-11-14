@@ -1,5 +1,2 @@
-- [ ] Display battery
-- [ ] Update readme to build it
 - [ ] Handle translation toys
-- [ ] Remove Lovense toys references
-- [ ] Clear modus
+- [ ] Presets

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Buttplug.Client;
 using ButtSaber.Configuration;
 using ModestTree;
+using UnityEngine.UIElements;
 
 namespace ButtSaber.Classes
 {
@@ -11,7 +12,6 @@ namespace ButtSaber.Classes
     {
         public ButtplugClientDevice Device { get; private set; }
 
-        private bool _connected;
         private bool _isRunning;
         private ToysConfig _config;
         private double _lastLevel;
@@ -23,6 +23,7 @@ namespace ButtSaber.Classes
         public Toy(ButtplugClientDevice device, bool Connected = false)
         {
             _10HzLimitTimer = new Timer(state => ResetCallCount(), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+
             this.Device = device;
 
             ToysConfig newConfig = ToysConfig.createToyConfig(this.Device.Name);
@@ -38,7 +39,6 @@ namespace ButtSaber.Classes
                 }
             }
             _config = newConfig;
-            this._connected = Connected;
             this._isRunning = false;
         }
 
@@ -60,35 +60,9 @@ namespace ButtSaber.Classes
             return true;
         }
 
-        public bool IsOn()
-        {
-            return this._isRunning;
-        }
-
-        public bool CanRotate()
-        {
-            //Todo: Handle can rotate
-            return false;
-        }
-
-        public bool CanPump()
-        {
-            //Todo: Handle can pump
-            return false;
-        }
-
         public void Test()
         {
             this.VibrateAsync(1000, 0.2);
-        }
-
-        public void setOff()
-        {
-            this._isRunning = false;
-        }
-        internal void setOn()
-        {
-            this._isRunning = true;
         }
 
         public bool CheckHand(bool LHand)
@@ -108,47 +82,26 @@ namespace ButtSaber.Classes
             return VibrateInternal(time, level);
         }
 
-
-
         public Task VibrateAsync(int time, bool hit = true)
         {
             this._isRunning = true;
-            this._lastLevel = this.getIntense(hit);
+            this._lastLevel = this.CalculateIntensity(hit);
             Plugin.Log.Debug($"Vibrate, _lastLevel: {this._lastLevel} during {time}, hit: {hit}");
             return VibrateInternal(time, this._lastLevel);
         }
 
-        public void resume()
+        public void Resume()
         {
             VibrateInternal(0, this._lastLevel).ConfigureAwait(true);
         }
 
-        private double getIntense(bool hit = true)
-        {
-            Plugin.Log.Debug($"getIntense, PluginConfig.Instance.IntenseHit: {PluginConfig.Instance.IntenseHit}, PluginConfig.Instance.IntenseMiss: {PluginConfig.Instance.IntenseMiss}");
-            double intense = (hit ? PluginConfig.Instance.IntenseHit : PluginConfig.Instance.IntenseMiss) / 20;
-            Plugin.Log.Debug($"getIntense, hit: {hit}, intense: {intense}");
-            if (PluginConfig.Instance.RandomIntenseHit)
-            {
-                Random rng = new Random();
-                intense = (double)rng.Next(1, 20) / 20;
-                Plugin.Log.Debug($"getIntense, hit: {hit}, randomIntense: {intense}");
-            }
-            return intense;
-        }
-
-        public void vibratePreset(int preset = 2, bool resume = false)
+        public void vibratePreset(int preset = 2, bool Resume = false)
         {
             this._isRunning = true;
             PresetToy(preset).ConfigureAwait(true);
         }
 
-        public async Task<String> GetBattery()
-        {
-            return (await this.Device.BatteryAsync()).ToString();
-        }
-
-        public void stop(bool resetLastLevel = false)
+        public void Stop(bool resetLastLevel = false)
         {
             if (resetLastLevel)
             {
@@ -176,7 +129,7 @@ namespace ButtSaber.Classes
         public async Task PresetToy(int time, int preset = 2, bool resume = false)
         {
             await VibratePresetToy(preset);
-            //TODO: Voir presets
+            //TODO: Check presets
             //if (resume)
             //{
             //    await Task.Delay(4000);
@@ -195,6 +148,11 @@ namespace ButtSaber.Classes
         public async Task StartPresetToy(int preset = 0)
         {
             //Todo: Handle presets
+        }
+
+        public async Task StopToy()
+        {
+            await this.Device.Stop();
         }
 
         private async Task VibrateInternal(int delay = 0, double speed = 0.5)
@@ -249,15 +207,23 @@ namespace ButtSaber.Classes
             }
         }
 
+        private double CalculateIntensity(bool hit = true)
+        {
+            Plugin.Log.Debug($"CalculateIntensity, PluginConfig.Instance.IntenseHit: {PluginConfig.Instance.IntenseHit}, PluginConfig.Instance.IntenseMiss: {PluginConfig.Instance.IntenseMiss}");
+            double intense = (hit ? PluginConfig.Instance.IntenseHit : PluginConfig.Instance.IntenseMiss) / 20;
+            Plugin.Log.Debug($"CalculateIntensity, hit: {hit}, intense: {intense}");
+            if (PluginConfig.Instance.RandomIntenseHit)
+            {
+                Random rng = new Random();
+                intense = (double)rng.Next(1, 20) / 20;
+                Plugin.Log.Debug($"CalculateIntensity, hit: {hit}, randomIntense: {intense}");
+            }
+            return intense;
+        }
+
         private static void ResetCallCount()
         {
             Interlocked.Exchange(ref _10HZCallCounter, 0);
         }
-
-        public async Task StopToy()
-        {
-            await this.Device.Stop();
-        }
-
     }
 }

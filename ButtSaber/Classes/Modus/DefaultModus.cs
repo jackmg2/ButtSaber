@@ -86,17 +86,17 @@ namespace ButtSaber.Classes.Modus
             return "Default";
         }
 
-        public virtual List<string> getUiElements()
+        public virtual List<string> GetUiElements()
         {
             return new List<string> { "vibrateOnMissBtn", "vibrateOnHitBtn", "randomIntenseMissBtn", "intenseMissSlider", "durationMissSlider", "randomIntenseHitBtn", "intenseHitSlider", "durationHitSlider", "presetOnBombHit", "presetBombSlider", "fireworksBtn" };
         }
 
-        public virtual string getDescription()
+        public virtual string GetDescription()
         {
             return "Default modus, free configuration for hit and miss boxes, also bombs behavior and fireworks.";
         }
 
-        public virtual bool useLastLevel()
+        public virtual bool UseLastLevel()
         {
             return false;
         }

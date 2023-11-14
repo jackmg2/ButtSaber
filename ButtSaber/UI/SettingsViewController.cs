@@ -10,7 +10,6 @@ using System.Linq;
 using BeatSaberMarkupLanguage.Components.Settings;
 using UnityEngine.UI;
 using TMPro;
-using BS_Utils.Utilities;
 using System.ComponentModel;
 using BeatSaberMarkupLanguage.ViewControllers;
 using IPA.Utilities;
@@ -21,7 +20,6 @@ namespace ButtSaber.UI
     [ViewDefinition("ButtSaber.UI.Views.SettingsView.bsml")]
     internal class SettingsViewController : BSMLAutomaticViewController
     {
-
         private Toy selectedToy = null;
         private int selectedToyNumber = 0;
         private ConnectionConfig selectedConnection = null;
@@ -32,7 +30,6 @@ namespace ButtSaber.UI
         private string port = "30010";
 
         private readonly PluginManager pluginManager = new PluginManager();
-
 
         private Dictionary<string, GameObject> UiElements = new Dictionary<string, GameObject>();
 
@@ -182,35 +179,12 @@ namespace ButtSaber.UI
             set => PluginConfig.Instance.PresetBomb = value;
         }
 
-        [UIValue("rotate")]
-        public int Rotate
-        {
-            get => PluginConfig.Instance.Rotate;
-            set => PluginConfig.Instance.Rotate = value;
-        }
-
-        [UIValue("air")]
-        public int Air
-        {
-            get => PluginConfig.Instance.Air;
-            set => PluginConfig.Instance.Air = value;
-        }
-
-        [UIValue("showBattery")]
-        public bool ShowBattery
-        {
-            get => PluginConfig.Instance.BattteryShow;
-            set => PluginConfig.Instance.BattteryShow = value;
-
-        }
-
         [UIValue("vibrateFireworks")]
         public bool VibrateFireworks
         {
             get => PluginConfig.Instance.Fireworks;
             set => PluginConfig.Instance.Fireworks = value;
         }
-
 
         [UIComponent("toggleStatusBtn")]
         private TextMeshProUGUI toggleStatusBtn;
@@ -242,13 +216,11 @@ namespace ButtSaber.UI
             set => this.SetProperty(this.connectionName, value);
         }
 
-
         [UIComponent("connection-list")]
         public CustomListTableData connectionTableData = null;
 
         [UIComponent("toy-list")]
         public CustomListTableData customListTableData = null;
-
 
         private async Task ShowToys(int delay = 0)
         {
@@ -332,7 +304,6 @@ namespace ButtSaber.UI
                 PluginConfig.Instance.Modus = value;
                 Plugin.Control.SetMode();
                 SetUpUIElements();
-
             }
         }
 
@@ -359,7 +330,6 @@ namespace ButtSaber.UI
 
         [UIValue("modus-options")]
         private List<object> modi = Plugin.Control.AvailableModi;
-
 
         [UIAction("#post-parse")]
         internal void SetupListField()
@@ -394,16 +364,13 @@ namespace ButtSaber.UI
                 return;
             }
 
-
             IEnumerable<Toy> Toys = Plugin.Control.GetToyList();
             customListTableData.data.Clear();
             foreach (Toy toy in Toys)
             {
                 Sprite sprite = Utilities.LoadSpriteFromResources("ButtSaber.Resources.Sprites." + toy.GetPictureName());
                 ToysConfig toyConfig = toy.GetToyConfig();
-                var battery = -1;//toy.GetBattery().Result;
-                Plugin.Log.Debug($"battery: {battery}");
-                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.Device.Name, toy.Device.Name + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + (toy.IsConnected() ? " - " + battery + "%" : "") + " - " + toyConfig.HType), sprite);
+                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.Device.Name, toy.Device.Name + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + " - " + toyConfig.HType), sprite);
                 customListTableData.data.Add(customCellInfo);
             }
 
@@ -411,14 +378,12 @@ namespace ButtSaber.UI
             this.selectedToy = Toys.ElementAt(this.selectedToyNumber);
             customListTableData.tableView.ScrollToCellWithIdx(this.selectedToyNumber, TableView.ScrollPositionType.Beginning, false);
             customListTableData.tableView.SelectCellWithIdx(this.selectedToyNumber);
-
         }
 
 
         [UIAction("toySelect")]
         public void Select(TableView _, int row)
         {
-
             IEnumerable<Toy> Toys = Plugin.Control.GetToyList();
             this.selectedToyNumber = row;
             this.selectedToy = Toys.ElementAt(row);
@@ -462,7 +427,6 @@ namespace ButtSaber.UI
         [UIComponent("detailText")]
         private TextMeshProUGUI detailText;
 
-
         private async void GetVersion()
         {
             var release = await pluginManager.GetNewestReleaseAsync();
@@ -478,9 +442,7 @@ namespace ButtSaber.UI
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         private void SetUpUIElements()
         {
@@ -502,7 +464,7 @@ namespace ButtSaber.UI
                 element.Value.SetActive(false);
             }
 
-            foreach (string element in Plugin.Control.GetMode().getUiElements())
+            foreach (string element in Plugin.Control.GetMode().GetUiElements())
             {
                 UiElements[element].SetActive(true);
             }
@@ -528,7 +490,5 @@ namespace ButtSaber.UI
 
             ResetVertical();
         }
-
-
     }
 }

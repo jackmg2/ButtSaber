@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- Set "YOUR OWN" Beat Saber folder here to resolve most of the dependency paths! -->
+    <BeatSaberDir>Z:\Beat Saber</BeatSaberDir>
+  </PropertyGroup>
+</Project>

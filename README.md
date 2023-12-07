@@ -24,6 +24,7 @@ Quick n dirty port of [LovenseBSControl](https://github.com/Sesch69/LovenseBSCon
 
 ## Installation
 * Copy dlls from your bin folder into the Plugin folder of the main directory of Beat Saber
+* Launch [Intiface-Central](https://intiface.com/central/) on the same computer than the one playing your game and synchronize yours toys
 * Goto to Settings -> Mod Settings -> Check Lovense BS Control settings
 
 ## Setting Options

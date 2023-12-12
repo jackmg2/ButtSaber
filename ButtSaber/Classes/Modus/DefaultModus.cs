@@ -1,7 +1,6 @@
 ﻿using ButtSaber.Configuration;
 using System;
 using System.Collections.Generic;
-using static CloudsMeshGenerator;
 
 
 namespace ButtSaber.Classes.Modus

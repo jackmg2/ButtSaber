@@ -12,7 +12,6 @@ namespace ButtSaber.Classes
     {
         public ButtplugClientDevice Device { get; private set; }
 
-        private bool _isRunning;
         private ToysConfig _config;
         private double _lastLevel;
         private String _lastConnection;
@@ -39,7 +38,6 @@ namespace ButtSaber.Classes
                 }
             }
             _config = newConfig;
-            this._isRunning = false;
         }
 
         public string GetPictureName()
@@ -72,8 +70,6 @@ namespace ButtSaber.Classes
 
         public Task VibrateAsync(int time, double level, bool ignoreLastLevel = false)
         {
-            this._isRunning = true;
-
             if (!ignoreLastLevel)
             {
                 this._lastLevel = level;
@@ -84,7 +80,6 @@ namespace ButtSaber.Classes
 
         public Task VibrateAsync(int time, bool hit = true)
         {
-            this._isRunning = true;
             this._lastLevel = this.CalculateIntensity(hit);
             Plugin.Log.Debug($"Vibrate, _lastLevel: {this._lastLevel} during {time}, hit: {hit}");
             return VibrateInternal(time, this._lastLevel);
@@ -97,7 +92,6 @@ namespace ButtSaber.Classes
 
         public void vibratePreset(int preset = 2, bool Resume = false)
         {
-            this._isRunning = true;
             PresetToy(preset).ConfigureAwait(true);
         }
 
@@ -107,7 +101,6 @@ namespace ButtSaber.Classes
             {
                 this._lastLevel = 0;
             }
-            this._isRunning = false;
             StopToy().ConfigureAwait(true);
         }
 

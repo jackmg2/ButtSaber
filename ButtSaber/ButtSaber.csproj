@@ -178,8 +178,6 @@
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
-    <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
     <None Include="ButtSaber.csproj.user" Condition="Exists('ButtSaber.csproj.user')" />
     <EmbeddedResource Include="UI\Views\SettingsView.bsml" />
   </ItemGroup>
@@ -217,10 +215,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Buttplug">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Buttplug.Client.Connectors.WebsocketConnector">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

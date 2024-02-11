@@ -27,7 +27,7 @@ namespace ButtSaber.UI
 
         private string connectionName = "New Connection";
         private string ipAdress = "127.0.0.1";
-        private string port = "30010";
+        private string port = "12345";
 
         private readonly PluginManager pluginManager = new PluginManager();
 

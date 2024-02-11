@@ -203,12 +203,12 @@ namespace ButtSaber.Classes
         private double CalculateIntensity(bool hit = true)
         {
             Plugin.Log.Debug($"CalculateIntensity, PluginConfig.Instance.IntenseHit: {PluginConfig.Instance.IntenseHit}, PluginConfig.Instance.IntenseMiss: {PluginConfig.Instance.IntenseMiss}");
-            double intense = (hit ? PluginConfig.Instance.IntenseHit : PluginConfig.Instance.IntenseMiss) / 20;
+            double intense = (hit ? PluginConfig.Instance.IntenseHit : PluginConfig.Instance.IntenseMiss) / 20d;
             Plugin.Log.Debug($"CalculateIntensity, hit: {hit}, intense: {intense}");
             if (PluginConfig.Instance.RandomIntenseHit)
             {
                 Random rng = new Random();
-                intense = (double)rng.Next(1, 20) / 20;
+                intense = (double)rng.Next(1, 20) / 20d;
                 Plugin.Log.Debug($"CalculateIntensity, hit: {hit}, randomIntense: {intense}");
             }
             return intense;
